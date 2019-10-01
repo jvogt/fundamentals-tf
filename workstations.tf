@@ -1,13 +1,13 @@
 resource "aws_instance" "workstation" {
   connection = {
     type     = "winrm"
-    password = "${random_string.random.result}"
+    password = "Fundamentals1"
     agent    = "false"
     insecure = true
     https    = false
   }
 
-  ami                         = "ami-0a6e87678eb9ffee7" # ${data.aws_ami.windows2016.id}
+  ami                         = "ami-0583eb5712e67eb1c" # ${data.aws_ami.windows2016.id}
   instance_type               = "${var.workstation_type}"
   key_name                    = "${var.aws_key_pair_name}"
   subnet_id                   = "${aws_subnet.fundamentals_wkshp-subnet-a.id}"
@@ -23,8 +23,8 @@ write-output "Running User Data Script"
 write-host "(host) Running User Data Script"
 
 # set administrator password
-cmd.exe /c net user Administrator ${random_string.random.result}
-cmd.exe /c net user chef ${random_string.random.result} /add /LOGONPASSWORDCHG:NO
+cmd.exe /c net user Administrator Fundamentals1
+cmd.exe /c net user chef Fundamentals1 /add /LOGONPASSWORDCHG:NO
 cmd.exe /c net localgroup Administrators /add chef
 
 # RDP
@@ -62,31 +62,31 @@ set-executionpolicy -executionpolicy unrestricted -force -scope LocalMachine
 
   EOF
 
-  provisioner "local-exec" {
-    command = "sleep 30"
-  }
+  # provisioner "local-exec" {
+  #   command = "sleep 30"
+  # }
 
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir c:\\hab\\user\\windows-workstation-chef\\config"
-    ]
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "if not exist \"c:\\hab\\user\\windows-workstation-chef\\config\\\" mkdir c:\\hab\\user\\windows-workstation-chef\\config"
+  #   ]
+  # }
 
   provisioner "file" {
     destination = "c:/hab/user/windows-workstation-chef/config/user.toml"
     content     = "${element(data.template_file.workstation_user_toml.*.rendered, count.index)}"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "hab license accept",
-      "hab pkg install core/windows-service",
-      "hab pkg exec core/windows-service install",
-      "sc.exe start habitat",
-      "waitfor svcstart /t 30 2>NUL",
-      "hab svc load jvogt-fundamentals/windows-workstation-chef --channel unstable --strategy at-once"
-    ]
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "hab license accept",
+  #     "hab pkg install core/windows-service",
+  #     "hab pkg exec core/windows-service install",
+  #     "sc.exe start habitat",
+  #     "waitfor svcstart /t 30 2>NUL",
+  #     "hab svc load jvogt-fundamentals/windows-workstation-chef --channel unstable --strategy at-once"
+  #   ]
+  # }
 
   tags = "${merge(
     local.common_tags,
@@ -109,11 +109,11 @@ data "template_file" "workstation_user_toml" {
 }
 
 output "win_password" {
-  value = "${random_string.random.result}"
+  value = "Fundamentals1"
 }
 
 output "generated_password" {
-  value = "${var.tag_application}PW<idx>"
+  value = "Fundamentals1"
 }
 
 output "win_rdp" {
