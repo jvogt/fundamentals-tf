@@ -17,11 +17,11 @@ resource "aws_instance" "workstation" {
   ebs_optimized               = true
   count                       = "${var.workstation_count}"
   depends_on                  = [
-    aws_security_group_rule.ingress_allow_3389_tcp_all,
-    aws_security_group_rule.ingress_allow_3389_udp_all,
-    aws_security_group_rule.ingress_allow_winrm_tcp_all,
-    aws_security_group_rule.ingress_allow_winrm_udp_all,
-    aws_security_group_rule.linux_egress_allow_0
+    "aws_security_group_rule.ingress_allow_3389_tcp_all",
+    "aws_security_group_rule.ingress_allow_3389_udp_all",
+    "aws_security_group_rule.ingress_allow_winrm_tcp_all",
+    "aws_security_group_rule.ingress_allow_winrm_udp_all",
+    "aws_security_group_rule.linux_egress_allow_0"
   ]
   user_data                   = <<-EOF
 <powershell>

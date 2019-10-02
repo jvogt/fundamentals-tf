@@ -12,8 +12,8 @@ resource "aws_instance" "target" {
   ebs_optimized          = true
   count                  = "${var.workstation_count}"
   depends_on             = [
-    aws_security_group_rule.ingress_allow_22_tcp_all,
-    aws_security_group_rule.linux_egress_allow_0
+    "aws_security_group_rule.ingress_allow_22_tcp_all",
+    "aws_security_group_rule.linux_egress_allow_0"
   ]
 
   tags = "${merge(
