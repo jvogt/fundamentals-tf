@@ -70,7 +70,7 @@ variable "platform" {
 }
 
 variable "workstation_type" {
-  default = "m4.large"
+  default = "t3.large"
   description = "AWS instance type to be used for the Demo Instances"
 }
 variable "workstation_count" {
@@ -78,7 +78,7 @@ variable "workstation_count" {
   description = "How many to build"
 }
 variable "linux_target_type" {
-  default = "m4.large"
+  default = "t3.small"
   description = "AWS instance type to be used for the Demo Instances"
 }
 
