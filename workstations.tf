@@ -21,7 +21,7 @@ resource "aws_instance" "workstation" {
     "aws_security_group_rule.ingress_allow_3389_udp_all",
     "aws_security_group_rule.ingress_allow_winrm_tcp_all",
     "aws_security_group_rule.ingress_allow_winrm_udp_all",
-    "aws_security_group_rule.linux_egress_allow_0"
+    "aws_security_group_rule.linux_egress_allow_0-65535_all"
   ]
   user_data                   = <<-EOF
 <powershell>
